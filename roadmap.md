@@ -47,6 +47,7 @@ powers everything; no Lovable Cloud.
 
 ## Phase 7 — Memberships and Paystack
 - [x] Centralized entitlements (free / explorer ₦300 / premium ₦500)
+- [x] Paystack checkout, verify on return, signed webhook, 30-day activation
 - [ ] Paystack initialize, verify, webhook, duplicate protection
 - [ ] Subscription activation only after backend verification
 - [ ] Payment history and subscription management UI

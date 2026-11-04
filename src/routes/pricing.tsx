@@ -1,5 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { Check } from "lucide-react";
+import { toast } from "sonner";
+import { useAuth } from "@/lib/auth";
+import { startCheckout } from "@/lib/payments.functions";
 
 import { Button } from "@/components/ui/button";
 import { Breadcrumbs, GlassCard, PageHero, Section } from "@/components/site/page-shell";
@@ -14,6 +18,18 @@ export const Route = createFileRoute("/pricing")({
 const limit = (n: number | null, unit: string) => (n === null ? `Unlimited ${unit}` : `${n} ${unit}`);
 
 function PricingPage() {
+  const { user, plan: current } = useAuth();
+  const [busy, setBusy] = useState<string | null>(null);
+  async function buy(plan: "explorer" | "premium") {
+    setBusy(plan);
+    try {
+      const { url } = await startCheckout({ data: { plan } });
+      window.location.href = url;
+    } catch {
+      toast.error("We couldn't start the payment. Please try again.");
+      setBusy(null);
+    }
+  }
   return (
     <>
       <Breadcrumbs items={[{ label: "Pricing" }]} />
@@ -38,7 +54,15 @@ function PricingPage() {
                     <li key={f} className="flex gap-2"><Check className="size-4 text-primary" />{f}</li>
                   ))}
                 </ul>
-                <Button className="mt-6 w-full" asChild><Link to="/register">Get started</Link></Button>
+                {!user ? (
+                  <Button className="mt-6 w-full" asChild><Link to="/register">Get started</Link></Button>
+                ) : id === current ? (
+                  <Button className="mt-6 w-full" variant="outline" disabled>Your current plan</Button>
+                ) : id === "free" ? null : (
+                  <Button className="mt-6 w-full" disabled={busy !== null} onClick={() => buy(id)}>
+                    {busy === id ? "Opening Paystack…" : `Upgrade to ${p.name}`}
+                  </Button>
+                )}
               </GlassCard>
             );
           })}
