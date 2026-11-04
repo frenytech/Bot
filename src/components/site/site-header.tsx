@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
 import { LogOut, LayoutDashboard, Menu, Settings, ShieldCheck, X } from "lucide-react";
 
@@ -14,7 +14,6 @@ export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const { user, isAdmin, signOut, profile } = useAuth();
   const location = useLocation();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -195,14 +194,10 @@ export function SiteHeader() {
                 ) : (
                   <>
                     <Button variant="outline" className="w-full" asChild>
-                      <button type="button" onClick={() => navigate({ to: "/login" })}>
-                        Sign in
-                      </button>
+                      <Link to="/login">Sign in</Link>
                     </Button>
                     <Button className="w-full" asChild>
-                      <button type="button" onClick={() => navigate({ to: "/register" })}>
-                        Get Started
-                      </button>
+                      <Link to="/register">Get Started</Link>
                     </Button>
                   </>
                 )}
