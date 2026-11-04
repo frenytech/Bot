@@ -28,7 +28,6 @@ powers everything; no Lovable Cloud.
 
 ## Phase 4 — Super administrator dashboard
 - [ ] Admin: students, directory editing, settings, messages, payments, AI analytics
-      levels, semesters, courses, settings, messages, payments, AI analytics
 - [x] PDF manager: courses, upload, publish/hide, delete (page count pending scanner)
 
 ## Phase 5 — Automatic PDF scanner
