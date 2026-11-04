@@ -10,7 +10,7 @@ powers everything; no Lovable Cloud.
       progress/usage, AI usage, site content
 - [x] RLS + EXECUTE hardening on internal helpers
 - [x] Super-admin provisioning path (server-side only, never self-granted)
-- [ ] Private storage buckets for course PDFs and question diagrams
+- [x] Private storage bucket for course PDFs
 
 ## Phase 2 — Public website, branding, responsive design
 - [x] StudyAI design system (deep navy, purple/cyan/electric-blue, glass)
@@ -27,9 +27,8 @@ powers everything; no Lovable Cloud.
 - [x] Student dashboard shell (12 sections)
 
 ## Phase 4 — Super administrator dashboard
-- [x] Admin shell + students, universities, faculties, departments,
-      levels, semesters, courses, settings, messages, payments, AI analytics
-- [ ] PDF manager (upload / replace / publish / unpublish / delete)
+- [ ] Admin: students, directory editing, settings, messages, payments, AI analytics
+- [x] PDF manager: courses, upload, publish/hide, delete (page count pending scanner)
 
 ## Phase 5 — Automatic PDF scanner
 - [ ] Upload -> scan pipeline: page count, text vs scanned, OCR, question +
