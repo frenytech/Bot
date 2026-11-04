@@ -16,7 +16,7 @@ function Dashboard() {
   const courses = useQuery({
     queryKey: ["my-courses"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("courses").select("id,code,title,description").eq("is_published", true).order("code");
+      const { data, error } = await supabase.from("courses").select("id,code,title,description,course_materials(id,file_name)").eq("is_published", true).order("code");
       if (error) throw error;
       return data;
     },
@@ -41,6 +41,11 @@ function Dashboard() {
             <p className="text-xs font-semibold text-primary">{c.code}</p>
             <h3 className="mt-1 font-semibold">{c.title}</h3>
             <p className="mt-2 text-sm text-muted-foreground">{c.description}</p>
+            <ul className="mt-3 space-y-1 text-sm">
+              {c.course_materials.map((m) => (
+                <li key={m.id}><Link to="/read/$materialId" params={{ materialId: m.id }} className="text-primary hover:underline">{m.file_name}</Link></li>
+              ))}
+            </ul>
           </GlassCard>
         ))}
       </div>

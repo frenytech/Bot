@@ -25,6 +25,7 @@ import { Route as TermsRouteImport } from './routes/terms'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as AuthenticatedReadMaterialIdRouteImport } from './routes/_authenticated/read.$materialId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -105,6 +106,12 @@ const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedReadMaterialIdRoute =
+  AuthenticatedReadMaterialIdRouteImport.update({
+    id: '/read/$materialId',
+    path: '/read/$materialId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -122,6 +129,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AuthenticatedAdminRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/settings': typeof AuthenticatedSettingsRoute
+  '/read/$materialId': typeof AuthenticatedReadMaterialIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -139,6 +147,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AuthenticatedAdminRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/settings': typeof AuthenticatedSettingsRoute
+  '/read/$materialId': typeof AuthenticatedReadMaterialIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -158,6 +167,7 @@ export interface FileRoutesById {
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/_authenticated/read/$materialId': typeof AuthenticatedReadMaterialIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -177,6 +187,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/dashboard'
     | '/settings'
+    | '/read/$materialId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -194,6 +205,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/dashboard'
     | '/settings'
+    | '/read/$materialId'
   id:
     | '__root__'
     | '/'
@@ -212,6 +224,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin'
     | '/_authenticated/dashboard'
     | '/_authenticated/settings'
+    | '/_authenticated/read/$materialId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -344,6 +357,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/read/$materialId': {
+      id: '/_authenticated/read/$materialId'
+      path: '/read/$materialId'
+      fullPath: '/read/$materialId'
+      preLoaderRoute: typeof AuthenticatedReadMaterialIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -351,12 +371,14 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+  AuthenticatedReadMaterialIdRoute: typeof AuthenticatedReadMaterialIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+  AuthenticatedReadMaterialIdRoute: AuthenticatedReadMaterialIdRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
