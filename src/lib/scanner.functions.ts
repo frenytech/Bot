@@ -53,7 +53,7 @@ export const scanPages = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const sb = context.supabase as any;
     await assertAdmin(sb);
-    const key = process.env.DEEPSEEK_API_KEY;
+    const key = process.env["DEEPSEEK_API_KEY"];
     if (!key) throw new Error("AI key missing");
 
     const { data: job } = await sb.from("pdf_processing_jobs").select("*").eq("id", data.jobId).single();
@@ -101,7 +101,7 @@ export const scanPages = createServerFn({ method: "POST" })
       rows.push({
         material_id: data.materialId, course_id: mat?.course_id ?? null, job_id: data.jobId,
         question_text: q.question.slice(0, 5000), options, correct_option: q.answer ?? null,
-        page_number: q.page ?? data.pages[0].page, question_number: q.number ?? null,
+        page_number: q.page ?? data.pages[0]?.page ?? null, question_number: q.number ?? null,
         topic: q.topic?.slice(0, 200) ?? null, exam_year: q.year ?? null, flags, status: "pending_review",
       });
     }
