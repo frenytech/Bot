@@ -137,8 +137,6 @@ export function CookieConsent() {
                 size="sm"
                 variant="ghost"
                 onClick={() => {
-                  setAnalytics(consent?.analytics ?? false);
-                  setMarketing(consent?.marketing ?? false);
                   setSettingsOpen(true);
                 }}
               >
