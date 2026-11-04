@@ -1,0 +1,82 @@
+# StudyAI — Build Roadmap
+
+Phases follow the master development prompt. Own Supabase (ref `ajgdfaugmiyzynlazvrn`)
+powers everything; no Lovable Cloud.
+
+## Phase 1 — Architecture
+- [x] Own Supabase connected (external, not Lovable Cloud)
+- [x] Core schema: profiles, roles, academic directory, courses, materials,
+      scanner jobs, extracted questions, subscriptions, payments, reading
+      progress/usage, AI usage, site content
+- [x] RLS + EXECUTE hardening on internal helpers
+- [x] Super-admin provisioning path (server-side only, never self-granted)
+- [ ] Private storage buckets for course PDFs and question diagrams
+
+## Phase 2 — Public website, branding, responsive design
+- [x] StudyAI design system (deep navy, purple/cyan/electric-blue, glass)
+- [x] Logo + favicon, no public Lovable branding
+- [x] Home, About, Features, How It Works, Pricing, Contact, Resources
+- [x] Terms, Privacy, Cookie Policy + cookie consent
+- [x] Login / Register
+- [x] SEO: sitemap, robots, canonical, per-page metadata
+
+## Phase 3 — Authentication and academic profiles
+- [x] Email/password register with university/faculty/department/level/semester
+- [x] Login, logout, forgot password, reset password
+- [x] Google Sign-In through Supabase Auth
+- [x] Student dashboard shell (12 sections)
+
+## Phase 4 — Super administrator dashboard
+- [x] Admin shell + students, universities, faculties, departments,
+      levels, semesters, courses, settings, messages, payments, AI analytics
+- [ ] PDF manager (upload / replace / publish / unpublish / delete)
+
+## Phase 5 — Automatic PDF scanner
+- [ ] Upload -> scan pipeline: page count, text vs scanned, OCR, question +
+      option extraction, diagram/table detection, page references
+- [ ] Cleanup: OCR spacing, noise, duplicate questions, repeated headers/footers
+- [ ] AI validation pass + flags for uncertain results
+- [ ] Administrator question-review interface (edit, approve, reject, publish)
+- [ ] PDF processing dashboard with progress and resume
+- [ ] Approved questions feed the CBT bank
+
+## Phase 6 — Protected PDF reading
+- [ ] Private storage reads through the backend, no permanent public URLs
+- [ ] PDF.js reader with dynamic per-student watermark
+- [ ] Free plan: 2 PDFs/day, 40 pages/PDF/day, blur locked pages
+- [ ] Permanent progress, continue next unread page, midnight WAT reset
+
+## Phase 7 — Memberships and Paystack
+- [x] Centralized entitlements (free / explorer ₦300 / premium ₦500)
+- [ ] Paystack initialize, verify, webhook, duplicate protection
+- [ ] Subscription activation only after backend verification
+- [ ] Payment history and subscription management UI
+
+## Phase 8 — DeepSeek AI Tutor and RAG
+- [ ] DeepSeek chat through the backend
+- [ ] Chunking + embeddings + retrieval with source/page references
+- [ ] Tutor customization (personality, avatar, colours, layout, language)
+
+## Phase 9 — CBT, flashcards, AI study notes
+- [ ] CBT generation, timer, navigation, exam vs practice mode, results
+- [ ] AI explanations with source references
+- [ ] Flashcards with review sessions and understood tracking
+- [ ] AI study notes saved per course/topic
+
+## Phase 10 — ElevenLabs and YouTube
+- [ ] ElevenLabs voice tutor (Premium), playback controls
+- [ ] YouTube discovery, search by course/topic, saved videos, embed player
+
+## Phase 11 — SEO, legal, QA, deployment
+- [x] sitemap.xml, robots.txt, canonical, structured data
+- [x] Legal pages and cookie consent
+- [ ] Environment variable docs and deployment instructions
+- [ ] End-to-end QA pass across mobile and desktop
+
+## Blocked on credentials from the user
+- DeepSeek API key
+- ElevenLabs API key
+- Paystack public/secret keys + webhook secret
+- YouTube Data API key
+- Google OAuth client (for Google Sign-In)
+- Super-admin email (who should be the one super administrator)
