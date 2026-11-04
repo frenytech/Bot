@@ -40,10 +40,10 @@ powers everything; no Lovable Cloud.
 - [ ] Approved questions feed the CBT bank
 
 ## Phase 6 — Protected PDF reading
-- [ ] Private storage reads through the backend, no permanent public URLs
-- [ ] PDF.js reader with dynamic per-student watermark
-- [ ] Free plan: 2 PDFs/day, 40 pages/PDF/day, blur locked pages
-- [ ] Permanent progress, continue next unread page, midnight WAT reset
+- [x] Private storage reads through the backend, no public URLs
+- [x] PDF.js reader with per-student watermark
+- [x] Daily PDF + page limits enforced server-side, locked pages blurred
+- [x] Progress saved, resumes last page, WAT midnight reset
 
 ## Phase 7 — Memberships and Paystack
 - [x] Centralized entitlements (free / explorer ₦300 / premium ₦500)
