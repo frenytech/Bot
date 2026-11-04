@@ -30,7 +30,7 @@ function ContactPage() {
       message: String(f.get("message")).slice(0, 4000),
     });
     setBusy(false);
-    if (error) return toast.error("Your message could not be sent. Please try again.");
+    if (error) { toast.error("Your message could not be sent. Please try again."); return; }
     toast.success("Thanks! We'll get back to you soon.");
     form.reset();
   }

@@ -47,7 +47,7 @@ function SettingsPage() {
       onboarded: true,
     }).eq("id", user.id);
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Profile saved.");
     await refreshProfile();
   }

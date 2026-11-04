@@ -26,12 +26,12 @@ function LoginPage() {
       password: String(f.get("password")),
     });
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     navigate({ to: "/dashboard", replace: true });
   }
   async function forgot() {
     const email = (document.getElementById("email") as HTMLInputElement).value;
-    if (!email) return toast.error("Enter your email first.");
+    if (!email) { toast.error("Enter your email first."); return; }
     const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: `${window.location.origin}/login` });
     if (error) toast.error(error.message);
     else toast.success("Check your email for a reset link.");

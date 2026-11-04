@@ -24,7 +24,7 @@ function RegisterPage() {
     e.preventDefault();
     const f = new FormData(e.currentTarget);
     const password = String(f.get("password"));
-    if (password.length < 8) return toast.error("Password must be at least 8 characters.");
+    if (password.length < 8) { toast.error("Password must be at least 8 characters."); return; }
     setBusy(true);
     const { data, error } = await supabase.auth.signUp({
       email: String(f.get("email")),
@@ -35,7 +35,7 @@ function RegisterPage() {
       },
     });
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     if (data.session) navigate({ to: "/dashboard", replace: true });
     else toast.success("Account created! Check your email to confirm, then log in.");
   }
