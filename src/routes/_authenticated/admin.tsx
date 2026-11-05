@@ -11,6 +11,8 @@ import { GlassCard, Section } from "@/components/site/page-shell";
 import { AcademicFields, emptyAcademic } from "@/components/site/academic-fields";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
+import { ScanButton } from "@/components/admin/scan-button";
+import { Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({ meta: [{ title: "Admin | StudyAI" }, { name: "robots", content: "noindex" }] }),
@@ -26,7 +28,7 @@ function AdminPage() {
     return <Section><GlassCard hover={false}>You don't have access to this page.</GlassCard></Section>;
   return (
     <Section>
-      <h1 className="text-3xl font-bold">Admin · Courses & PDFs</h1>
+      <div className="flex flex-wrap items-center justify-between gap-3"><h1 className="text-3xl font-bold">Admin · Courses & PDFs</h1><Button asChild variant="outline"><Link to="/admin/questions">Review questions</Link></Button></div>
       <NewCourse />
       <CourseList />
     </Section>
@@ -140,6 +142,7 @@ function CourseList() {
                 <span>{m.file_name} {m.is_published ? "" : <em className="text-muted-foreground">(hidden)</em>}</span>
                 <span className="flex gap-2">
                   <Button size="sm" variant="ghost" onClick={() => togglePublish("course_materials", m.id, !m.is_published)}>{m.is_published ? "Hide" : "Publish"}</Button>
+                  <ScanButton materialId={m.id} path={m.storage_path} onDone={refresh} />
                   <Button size="sm" variant="ghost" onClick={() => removeMaterial(m.id, m.storage_path)}>Delete</Button>
                 </span>
               </li>
