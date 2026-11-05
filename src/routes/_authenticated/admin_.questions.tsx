@@ -10,7 +10,7 @@ import { GlassCard, Section } from "@/components/site/page-shell";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 
-export const Route = createFileRoute("/_authenticated/admin/questions")({
+export const Route = createFileRoute("/_authenticated/admin_/questions")({
   head: () => ({ meta: [{ title: "Question review | StudyAI" }, { name: "robots", content: "noindex" }] }),
   component: ReviewPage,
 });
