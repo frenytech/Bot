@@ -32,6 +32,7 @@ function Dashboard() {
           <Button className="mt-3" asChild><Link to="/settings">Complete profile</Link></Button>
         </GlassCard>
       ) : null}
+      <Button className="mt-6" asChild><Link to="/cbt">Take a practice test</Link></Button>
       <h2 className="mt-10 text-xl font-semibold">Your courses</h2>
       <div className="mt-4 grid gap-5 md:grid-cols-3">
         {courses.isLoading ? <p className="text-muted-foreground">Loading…</p> : !courses.data?.length ? (

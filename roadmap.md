@@ -37,7 +37,7 @@ powers everything; no Lovable Cloud.
 - [ ] AI validation pass + flags for uncertain results
 - [x] Administrator question-review interface (edit, approve, reject, publish)
 - [x] Scan button with progress (resume pending)
-- [ ] Approved questions feed the CBT bank
+- [x] Published questions feed the CBT bank
 
 ## Phase 6 — Protected PDF reading
 - [x] Private storage reads through the backend, no public URLs
@@ -58,7 +58,7 @@ powers everything; no Lovable Cloud.
 - [ ] Tutor customization (personality, avatar, colours, layout, language)
 
 ## Phase 9 — CBT, flashcards, AI study notes
-- [ ] CBT generation, timer, navigation, exam vs practice mode, results
+- [x] CBT generation, timer, navigation, exam vs practice mode, results
 - [ ] AI explanations with source references
 - [ ] Flashcards with review sessions and understood tracking
 - [ ] AI study notes saved per course/topic
