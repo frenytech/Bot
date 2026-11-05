@@ -35,8 +35,8 @@ powers everything; no Lovable Cloud.
       option extraction, diagram/table detection, page references
 - [ ] Cleanup: OCR spacing, noise, duplicate questions, repeated headers/footers
 - [ ] AI validation pass + flags for uncertain results
-- [ ] Administrator question-review interface (edit, approve, reject, publish)
-- [ ] PDF processing dashboard with progress and resume
+- [x] Administrator question-review interface (edit, approve, reject, publish)
+- [x] Scan button with progress (resume pending)
 - [ ] Approved questions feed the CBT bank
 
 ## Phase 6 — Protected PDF reading
