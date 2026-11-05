@@ -93,7 +93,7 @@ function CbtPage() {
         <h1 className="text-3xl font-bold">You scored {result.score}/{result.total} ({Math.round((result.score / result.total) * 100)}%)</h1>
         <div className="mt-6 space-y-3">
           {qs.map((q, i) => {
-            const mine = answers[q.id]; const right = result.correct[q.id];
+            const mine = answers[q.id]; const right = result.correct[q.id] ?? "";
             return (
               <GlassCard key={q.id} hover={false}>
                 <p className="font-medium">{i + 1}. {q.text}</p>
