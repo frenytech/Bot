@@ -3,9 +3,12 @@ import { z } from "zod";
 
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
-async function assertAdmin(supabase: any) {
+/** Verifies the caller is the super-admin, then returns the privileged client (job/question tables are server-write only). */
+async function assertAdmin(supabase: any): Promise<any> {
   const { data, error } = await supabase.rpc("is_super_admin");
   if (error || !data) throw new Error("Not allowed");
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  return supabaseAdmin;
 }
 
 const startInput = z.object({ materialId: z.string().uuid(), pagesTotal: z.number().int().min(0).max(5000), hasText: z.boolean() });
@@ -15,8 +18,7 @@ export const startScan = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => startInput.parse(d))
   .handler(async ({ data, context }) => {
-    const sb = context.supabase as any;
-    await assertAdmin(sb);
+    const sb = await assertAdmin(context.supabase);
     await sb.from("course_materials")
       .update({ status: "processing", page_count: data.pagesTotal, has_selectable_text: data.hasText })
       .eq("id", data.materialId);
@@ -51,8 +53,7 @@ export const scanPages = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => pagesInput.parse(d))
   .handler(async ({ data, context }) => {
-    const sb = context.supabase as any;
-    await assertAdmin(sb);
+    const sb = await assertAdmin(context.supabase);
     const key = process.env["DEEPSEEK_API_KEY"];
     if (!key) throw new Error("AI key missing");
 
