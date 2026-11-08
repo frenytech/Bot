@@ -39,7 +39,7 @@ function Flashcards() {
   }
   async function mark(understood: boolean) {
     if (!cards || !user) return;
-    const c = cards[i];
+    const c = cards[i]; if (!c) return;
     await (supabase as any).from("flashcard_reviews").upsert({ user_id: user.id, question_id: c.id, understood, reviewed_at: new Date().toISOString() }, { onConflict: "user_id,question_id" });
     setCards(cards.map((x, k) => (k === i ? { ...x, understood } : x)));
     setFlipped(false);
@@ -66,8 +66,8 @@ function Flashcards() {
             <>
               <button type="button" onClick={() => setFlipped((f) => !f)} className="glass mt-4 flex min-h-64 w-full flex-col items-center justify-center rounded-2xl border border-border p-6 text-center">
                 <span className="text-xs uppercase tracking-wide text-primary">{flipped ? "Answer" : "Question"}</span>
-                <p className="mt-3 text-lg">{flipped ? cards[i].back : cards[i].front}</p>
-                {flipped && cards[i].page ? <p className="mt-3 text-xs text-muted-foreground">Source: page {cards[i].page}</p> : null}
+                <p className="mt-3 text-lg">{flipped ? cards[i]!.back : cards[i]!.front}</p>
+                {flipped && cards[i]!.page ? <p className="mt-3 text-xs text-muted-foreground">Source: page {cards[i]!.page}</p> : null}
                 {!flipped ? <p className="mt-4 text-xs text-muted-foreground">Tap to reveal</p> : null}
               </button>
               <div className="mt-4 grid grid-cols-2 gap-3">
