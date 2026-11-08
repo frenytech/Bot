@@ -60,8 +60,8 @@ powers everything; no Lovable Cloud.
 ## Phase 9 — CBT, flashcards, AI study notes
 - [x] CBT generation, timer, navigation, exam vs practice mode, results
 - [ ] AI explanations with source references
-- [ ] Flashcards with review sessions and understood tracking
-- [ ] AI study notes saved per course/topic
+- [x] Flashcards with review sessions and understood tracking
+- [x] AI study notes saved per course/topic
 
 ## Phase 10 — ElevenLabs and YouTube
 - [ ] ElevenLabs voice tutor (Premium), playback controls
