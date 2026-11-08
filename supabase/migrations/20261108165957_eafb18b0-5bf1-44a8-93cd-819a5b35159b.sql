@@ -1,0 +1,11 @@
+CREATE TABLE public.flashcard_reviews (id uuid PRIMARY KEY DEFAULT gen_random_uuid(), user_id uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE, question_id uuid NOT NULL REFERENCES public.extracted_questions(id) ON DELETE CASCADE, understood boolean NOT NULL DEFAULT false, reviewed_at timestamptz NOT NULL DEFAULT now(), UNIQUE(user_id, question_id));
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.flashcard_reviews TO authenticated;
+GRANT ALL ON public.flashcard_reviews TO service_role;
+ALTER TABLE public.flashcard_reviews ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own flashcard reviews" ON public.flashcard_reviews FOR ALL TO authenticated USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
+CREATE TABLE public.study_notes (id uuid PRIMARY KEY DEFAULT gen_random_uuid(), user_id uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE, course_id uuid REFERENCES public.courses(id) ON DELETE SET NULL, topic text NOT NULL, content text NOT NULL, created_at timestamptz NOT NULL DEFAULT now());
+GRANT SELECT, DELETE ON public.study_notes TO authenticated;
+GRANT ALL ON public.study_notes TO service_role;
+ALTER TABLE public.study_notes ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "read own notes" ON public.study_notes FOR SELECT TO authenticated USING (auth.uid() = user_id);
+CREATE POLICY "delete own notes" ON public.study_notes FOR DELETE TO authenticated USING (auth.uid() = user_id);

@@ -25,6 +25,8 @@ import { Route as TermsRouteImport } from './routes/terms'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedCbtRouteImport } from './routes/_authenticated/cbt'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedFlashcardsRouteImport } from './routes/_authenticated/flashcards'
+import { Route as AuthenticatedNotesRouteImport } from './routes/_authenticated/notes'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedAdminQuestionsRouteImport } from './routes/_authenticated/admin_.questions'
 import { Route as AuthenticatedPaymentCallbackRouteImport } from './routes/_authenticated/payment.callback'
@@ -110,6 +112,16 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedFlashcardsRoute = AuthenticatedFlashcardsRouteImport.update({
+  id: '/flashcards',
+  path: '/flashcards',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedNotesRoute = AuthenticatedNotesRouteImport.update({
+  id: '/notes',
+  path: '/notes',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -156,6 +168,8 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AuthenticatedAdminRoute
   '/cbt': typeof AuthenticatedCbtRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/flashcards': typeof AuthenticatedFlashcardsRoute
+  '/notes': typeof AuthenticatedNotesRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/admin/questions': typeof AuthenticatedAdminQuestionsRoute
   '/payment/callback': typeof AuthenticatedPaymentCallbackRoute
@@ -178,6 +192,8 @@ export interface FileRoutesByTo {
   '/admin': typeof AuthenticatedAdminRoute
   '/cbt': typeof AuthenticatedCbtRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/flashcards': typeof AuthenticatedFlashcardsRoute
+  '/notes': typeof AuthenticatedNotesRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/admin/questions': typeof AuthenticatedAdminQuestionsRoute
   '/payment/callback': typeof AuthenticatedPaymentCallbackRoute
@@ -202,6 +218,8 @@ export interface FileRoutesById {
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/cbt': typeof AuthenticatedCbtRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/flashcards': typeof AuthenticatedFlashcardsRoute
+  '/_authenticated/notes': typeof AuthenticatedNotesRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/admin_/questions': typeof AuthenticatedAdminQuestionsRoute
   '/_authenticated/payment/callback': typeof AuthenticatedPaymentCallbackRoute
@@ -226,6 +244,8 @@ export interface FileRouteTypes {
     | '/admin'
     | '/cbt'
     | '/dashboard'
+    | '/flashcards'
+    | '/notes'
     | '/settings'
     | '/admin/questions'
     | '/payment/callback'
@@ -248,6 +268,8 @@ export interface FileRouteTypes {
     | '/admin'
     | '/cbt'
     | '/dashboard'
+    | '/flashcards'
+    | '/notes'
     | '/settings'
     | '/admin/questions'
     | '/payment/callback'
@@ -271,6 +293,8 @@ export interface FileRouteTypes {
     | '/_authenticated/admin'
     | '/_authenticated/cbt'
     | '/_authenticated/dashboard'
+    | '/_authenticated/flashcards'
+    | '/_authenticated/notes'
     | '/_authenticated/settings'
     | '/_authenticated/admin_/questions'
     | '/_authenticated/payment/callback'
@@ -409,6 +433,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/flashcards': {
+      id: '/_authenticated/flashcards'
+      path: '/flashcards'
+      fullPath: '/flashcards'
+      preLoaderRoute: typeof AuthenticatedFlashcardsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/notes': {
+      id: '/_authenticated/notes'
+      path: '/notes'
+      fullPath: '/notes'
+      preLoaderRoute: typeof AuthenticatedNotesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/settings': {
       id: '/_authenticated/settings'
       path: '/settings'
@@ -451,6 +489,8 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedCbtRoute: typeof AuthenticatedCbtRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedFlashcardsRoute: typeof AuthenticatedFlashcardsRoute
+  AuthenticatedNotesRoute: typeof AuthenticatedNotesRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedAdminQuestionsRoute: typeof AuthenticatedAdminQuestionsRoute
   AuthenticatedPaymentCallbackRoute: typeof AuthenticatedPaymentCallbackRoute
@@ -461,6 +501,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedCbtRoute: AuthenticatedCbtRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedFlashcardsRoute: AuthenticatedFlashcardsRoute,
+  AuthenticatedNotesRoute: AuthenticatedNotesRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedAdminQuestionsRoute: AuthenticatedAdminQuestionsRoute,
   AuthenticatedPaymentCallbackRoute: AuthenticatedPaymentCallbackRoute,

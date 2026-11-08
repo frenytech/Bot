@@ -475,6 +475,38 @@ export type Database = {
           },
         ]
       }
+      flashcard_reviews: {
+        Row: {
+          id: string
+          question_id: string
+          reviewed_at: string
+          understood: boolean
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          question_id: string
+          reviewed_at?: string
+          understood?: boolean
+          user_id: string
+        }
+        Update: {
+          id?: string
+          question_id?: string
+          reviewed_at?: string
+          understood?: boolean
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "flashcard_reviews_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "extracted_questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       payments: {
         Row: {
           amount_naira: number
@@ -855,6 +887,41 @@ export type Database = {
             columns: ["updated_by"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      study_notes: {
+        Row: {
+          content: string
+          course_id: string | null
+          created_at: string
+          id: string
+          topic: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          course_id?: string | null
+          created_at?: string
+          id?: string
+          topic: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          course_id?: string | null
+          created_at?: string
+          id?: string
+          topic?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "study_notes_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
             referencedColumns: ["id"]
           },
         ]
