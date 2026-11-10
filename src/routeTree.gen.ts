@@ -28,9 +28,12 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as AuthenticatedFlashcardsRouteImport } from './routes/_authenticated/flashcards'
 import { Route as AuthenticatedNotesRouteImport } from './routes/_authenticated/notes'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as ApiTutorRouteImport } from './routes/api/tutor'
 import { Route as AuthenticatedAdminQuestionsRouteImport } from './routes/_authenticated/admin_.questions'
 import { Route as AuthenticatedPaymentCallbackRouteImport } from './routes/_authenticated/payment.callback'
 import { Route as AuthenticatedReadMaterialIdRouteImport } from './routes/_authenticated/read.$materialId'
+import { Route as AuthenticatedTutorIndexRouteImport } from './routes/_authenticated/tutor.index'
+import { Route as AuthenticatedTutorThreadIdRouteImport } from './routes/_authenticated/tutor.$threadId'
 import { Route as ApiPublicPaystackWebhookRouteImport } from './routes/api/public/paystack-webhook'
 
 const IndexRoute = IndexRouteImport.update({
@@ -127,6 +130,11 @@ const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiTutorRoute = ApiTutorRouteImport.update({
+  id: '/api/tutor',
+  path: '/api/tutor',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedAdminQuestionsRoute =
   AuthenticatedAdminQuestionsRouteImport.update({
     id: '/admin_/questions',
@@ -143,6 +151,17 @@ const AuthenticatedReadMaterialIdRoute =
   AuthenticatedReadMaterialIdRouteImport.update({
     id: '/read/$materialId',
     path: '/read/$materialId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedTutorIndexRoute = AuthenticatedTutorIndexRouteImport.update({
+  id: '/tutor/',
+  path: '/tutor/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedTutorThreadIdRoute =
+  AuthenticatedTutorThreadIdRouteImport.update({
+    id: '/tutor/$threadId',
+    path: '/tutor/$threadId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const ApiPublicPaystackWebhookRoute =
@@ -171,10 +190,13 @@ export interface FileRoutesByFullPath {
   '/flashcards': typeof AuthenticatedFlashcardsRoute
   '/notes': typeof AuthenticatedNotesRoute
   '/settings': typeof AuthenticatedSettingsRoute
+  '/api/tutor': typeof ApiTutorRoute
   '/admin/questions': typeof AuthenticatedAdminQuestionsRoute
   '/payment/callback': typeof AuthenticatedPaymentCallbackRoute
   '/read/$materialId': typeof AuthenticatedReadMaterialIdRoute
+  '/tutor/$threadId': typeof AuthenticatedTutorThreadIdRoute
   '/api/public/paystack-webhook': typeof ApiPublicPaystackWebhookRoute
+  '/tutor/': typeof AuthenticatedTutorIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -195,10 +217,13 @@ export interface FileRoutesByTo {
   '/flashcards': typeof AuthenticatedFlashcardsRoute
   '/notes': typeof AuthenticatedNotesRoute
   '/settings': typeof AuthenticatedSettingsRoute
+  '/api/tutor': typeof ApiTutorRoute
   '/admin/questions': typeof AuthenticatedAdminQuestionsRoute
   '/payment/callback': typeof AuthenticatedPaymentCallbackRoute
   '/read/$materialId': typeof AuthenticatedReadMaterialIdRoute
+  '/tutor/$threadId': typeof AuthenticatedTutorThreadIdRoute
   '/api/public/paystack-webhook': typeof ApiPublicPaystackWebhookRoute
+  '/tutor': typeof AuthenticatedTutorIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -221,10 +246,13 @@ export interface FileRoutesById {
   '/_authenticated/flashcards': typeof AuthenticatedFlashcardsRoute
   '/_authenticated/notes': typeof AuthenticatedNotesRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/api/tutor': typeof ApiTutorRoute
   '/_authenticated/admin_/questions': typeof AuthenticatedAdminQuestionsRoute
   '/_authenticated/payment/callback': typeof AuthenticatedPaymentCallbackRoute
   '/_authenticated/read/$materialId': typeof AuthenticatedReadMaterialIdRoute
+  '/_authenticated/tutor/$threadId': typeof AuthenticatedTutorThreadIdRoute
   '/api/public/paystack-webhook': typeof ApiPublicPaystackWebhookRoute
+  '/_authenticated/tutor/': typeof AuthenticatedTutorIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -247,10 +275,13 @@ export interface FileRouteTypes {
     | '/flashcards'
     | '/notes'
     | '/settings'
+    | '/api/tutor'
     | '/admin/questions'
     | '/payment/callback'
     | '/read/$materialId'
+    | '/tutor/$threadId'
     | '/api/public/paystack-webhook'
+    | '/tutor/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -271,10 +302,13 @@ export interface FileRouteTypes {
     | '/flashcards'
     | '/notes'
     | '/settings'
+    | '/api/tutor'
     | '/admin/questions'
     | '/payment/callback'
     | '/read/$materialId'
+    | '/tutor/$threadId'
     | '/api/public/paystack-webhook'
+    | '/tutor'
   id:
     | '__root__'
     | '/'
@@ -296,10 +330,13 @@ export interface FileRouteTypes {
     | '/_authenticated/flashcards'
     | '/_authenticated/notes'
     | '/_authenticated/settings'
+    | '/api/tutor'
     | '/_authenticated/admin_/questions'
     | '/_authenticated/payment/callback'
     | '/_authenticated/read/$materialId'
+    | '/_authenticated/tutor/$threadId'
     | '/api/public/paystack-webhook'
+    | '/_authenticated/tutor/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -316,6 +353,7 @@ export interface RootRouteChildren {
   RegisterRoute: typeof RegisterRoute
   ResourcesRoute: typeof ResourcesRoute
   TermsRoute: typeof TermsRoute
+  ApiTutorRoute: typeof ApiTutorRoute
   ApiPublicPaystackWebhookRoute: typeof ApiPublicPaystackWebhookRoute
 }
 
@@ -454,6 +492,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/tutor': {
+      id: '/api/tutor'
+      path: '/api/tutor'
+      fullPath: '/api/tutor'
+      preLoaderRoute: typeof ApiTutorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/admin_/questions': {
       id: '/_authenticated/admin_/questions'
       path: '/admin/questions'
@@ -473,6 +518,20 @@ declare module '@tanstack/react-router' {
       path: '/read/$materialId'
       fullPath: '/read/$materialId'
       preLoaderRoute: typeof AuthenticatedReadMaterialIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/tutor/': {
+      id: '/_authenticated/tutor/'
+      path: '/tutor'
+      fullPath: '/tutor/'
+      preLoaderRoute: typeof AuthenticatedTutorIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/tutor/$threadId': {
+      id: '/_authenticated/tutor/$threadId'
+      path: '/tutor/$threadId'
+      fullPath: '/tutor/$threadId'
+      preLoaderRoute: typeof AuthenticatedTutorThreadIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/api/public/paystack-webhook': {
@@ -495,6 +554,8 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminQuestionsRoute: typeof AuthenticatedAdminQuestionsRoute
   AuthenticatedPaymentCallbackRoute: typeof AuthenticatedPaymentCallbackRoute
   AuthenticatedReadMaterialIdRoute: typeof AuthenticatedReadMaterialIdRoute
+  AuthenticatedTutorThreadIdRoute: typeof AuthenticatedTutorThreadIdRoute
+  AuthenticatedTutorIndexRoute: typeof AuthenticatedTutorIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -507,6 +568,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminQuestionsRoute: AuthenticatedAdminQuestionsRoute,
   AuthenticatedPaymentCallbackRoute: AuthenticatedPaymentCallbackRoute,
   AuthenticatedReadMaterialIdRoute: AuthenticatedReadMaterialIdRoute,
+  AuthenticatedTutorThreadIdRoute: AuthenticatedTutorThreadIdRoute,
+  AuthenticatedTutorIndexRoute: AuthenticatedTutorIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -526,6 +589,7 @@ const rootRouteChildren: RootRouteChildren = {
   RegisterRoute: RegisterRoute,
   ResourcesRoute: ResourcesRoute,
   TermsRoute: TermsRoute,
+  ApiTutorRoute: ApiTutorRoute,
   ApiPublicPaystackWebhookRoute: ApiPublicPaystackWebhookRoute,
 }
 export const routeTree = rootRouteImport
