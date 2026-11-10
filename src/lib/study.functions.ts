@@ -30,30 +30,30 @@ export const generateNotes = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const { data: course } = await context.supabase.from("courses").select("id,code,title").eq("id", data.courseId).maybeSingle();
     if (!course) throw new Error("Course not available");
-    const key = process.env["DEEPSEEK_API_KEY"];
+    const key = process.env["GROQ_API_KEY"];
     if (!key) throw new Error("AI is not configured");
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: qs } = await supabaseAdmin.from("extracted_questions").select("question_text,page_number")
       .eq("course_id", data.courseId).eq("status", "published").limit(30);
     const context_ = (qs ?? []).map((q) => `- (p.${q.page_number ?? "?"}) ${q.question_text.slice(0, 300)}`).join("\n");
-    const res = await fetch("https://api.deepseek.com/chat/completions", {
+    const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` },
       body: JSON.stringify({
-        model: "deepseek-chat", temperature: 0.4,
+        model: "llama-3.3-70b-versatile", temperature: 0.4,
         messages: [
           { role: "system", content: "You are a university tutor. Write clear, well-structured study notes in Markdown: short intro, key concepts with headings, worked examples, common exam traps, and a 5-point summary. Be accurate and concise." },
           { role: "user", content: `Course: ${course.code} — ${course.title}\nTopic: ${data.topic}\n\nPast exam questions from this course (for focus):\n${context_ || "none"}` },
         ],
       }),
     });
-    if (!res.ok) { console.error("DeepSeek notes", res.status, await res.text()); throw new Error("AI service unavailable, try again"); }
+    if (!res.ok) { console.error("Groq notes", res.status, await res.text()); throw new Error("AI service unavailable, try again"); }
     const j = await res.json();
     const content = String(j.choices?.[0]?.message?.content ?? "").slice(0, 50000);
     if (!content) throw new Error("No notes generated");
     const { data: note, error } = await (supabaseAdmin as any).from("study_notes")
       .insert({ user_id: context.userId, course_id: course.id, topic: data.topic, content }).select("id,topic,content,created_at").single();
     if (error) throw new Error("Could not save notes");
-    await supabaseAdmin.from("ai_usage").insert({ user_id: context.userId, feature: "study_notes", model: "deepseek-chat", prompt_tokens: j.usage?.prompt_tokens ?? 0, completion_tokens: j.usage?.completion_tokens ?? 0 });
+    await supabaseAdmin.from("ai_usage").insert({ user_id: context.userId, feature: "study_notes", model: "llama-3.3-70b-versatile", prompt_tokens: j.usage?.prompt_tokens ?? 0, completion_tokens: j.usage?.completion_tokens ?? 0 });
     return note as { id: string; topic: string; content: string; created_at: string };
   });

@@ -70,19 +70,10 @@ export const openMaterial = createServerFn({ method: "POST" })
       .eq("material_id", material.id)
       .maybeSingle();
 
-    const file = await supabaseAdmin.storage.from("course-pdfs").download(material.storage_path);
-    if (file.error || !file.data) throw new Error("Could not load this PDF.");
-    const bytes = new Uint8Array(await file.data.arrayBuffer());
-    let bin = "";
-    for (let i = 0; i < bytes.length; i += 0x8000) {
-      bin += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
-    }
-
     return {
       ok: true as const,
       fileName: material.file_name,
       course: material.courses as { code: string; title: string } | null,
-      pdfBase64: btoa(bin),
       pagesReadToday: mine?.pages_read ?? 0,
       pageLimit: plan.pagesPerPdfPerDay,
       lastPage: progress?.last_page_read ?? 1,

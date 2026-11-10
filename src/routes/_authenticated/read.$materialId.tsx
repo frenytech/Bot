@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { GlassCard, Section } from "@/components/site/page-shell";
 import { openMaterial, recordPage } from "@/lib/reading.functions";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/_authenticated/read/$materialId")({
   head: () => ({ meta: [{ title: "Reader | StudyAI" }, { name: "robots", content: "noindex" }] }),
@@ -40,7 +41,10 @@ function Reader() {
         const pdfjs = await import("pdfjs-dist");
         const worker = await import("pdfjs-dist/build/pdf.worker.min.mjs?url");
         pdfjs.GlobalWorkerOptions.workerSrc = worker.default;
-        const raw = Uint8Array.from(atob(res.pdfBase64), (c) => c.charCodeAt(0));
+        const { data: { session } } = await supabase.auth.getSession();
+        const file = await fetch(`/api/pdf/${materialId}`, { headers: { Authorization: `Bearer ${session?.access_token ?? ""}` } });
+        if (!file.ok) throw new Error("download failed");
+        const raw = new Uint8Array(await file.arrayBuffer());
         const loaded = await pdfjs.getDocument({ data: raw }).promise;
         if (cancelled) return;
         setInfo(res);

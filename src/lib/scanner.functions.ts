@@ -54,7 +54,7 @@ export const scanPages = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => pagesInput.parse(d))
   .handler(async ({ data, context }) => {
     const sb = await assertAdmin(context.supabase);
-    const key = process.env["DEEPSEEK_API_KEY"];
+    const key = process.env["GROQ_API_KEY"];
     if (!key) throw new Error("AI key missing");
 
     const { data: job } = await sb.from("pdf_processing_jobs").select("*").eq("id", data.jobId).single();
@@ -65,11 +65,11 @@ export const scanPages = createServerFn({ method: "POST" })
     let ocrErrors = 0;
     const emptyPages = data.pages.filter((p) => p.text.trim().length < 20).length;
     if (body.replace(/=== PAGE \d+ ===/g, "").trim().length > 20) {
-      const res = await fetch("https://api.deepseek.com/chat/completions", {
+      const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` },
         body: JSON.stringify({
-          model: "deepseek-chat",
+          model: "llama-3.3-70b-versatile",
           response_format: { type: "json_object" },
           temperature: 0,
           messages: [{ role: "system", content: PROMPT }, { role: "user", content: body }],
