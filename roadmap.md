@@ -53,7 +53,7 @@ powers everything; no Lovable Cloud.
 - [ ] Payment history and subscription management UI
 
 ## Phase 8 — DeepSeek AI Tutor and RAG
-- [ ] DeepSeek chat through the backend
+- [x] DeepSeek chat through the backend (threaded, saved, streamed, daily limits)
 - [ ] Chunking + embeddings + retrieval with source/page references
 - [ ] Tutor customization (personality, avatar, colours, layout, language)
 

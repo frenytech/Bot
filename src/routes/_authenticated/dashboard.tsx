@@ -33,7 +33,8 @@ function Dashboard() {
         </GlassCard>
       ) : null}
       <div className="mt-6 flex flex-wrap gap-3">
-        <Button asChild><Link to="/cbt">Take a practice test</Link></Button>
+        <Button asChild className="glow-soft"><Link to="/tutor">Ask the AI tutor</Link></Button>
+        <Button asChild variant="outline"><Link to="/cbt">Take a practice test</Link></Button>
         <Button asChild variant="outline"><Link to="/flashcards">Flashcards</Link></Button>
         <Button asChild variant="outline"><Link to="/notes">AI study notes</Link></Button>
       </div>
