@@ -65,7 +65,7 @@ export function TutorShell({ threadId }: { threadId?: string }) {
   );
 }
 
-function ThreadList({ activeId, onPick, onClose }: { activeId?: string; onPick: () => void; onClose: () => void }) {
+function ThreadList({ activeId, onPick, onClose }: { activeId?: string | undefined; onPick: () => void; onClose: () => void }) {
   const threads = useThreads();
   const qc = useQueryClient();
   const navigate = useNavigate();
