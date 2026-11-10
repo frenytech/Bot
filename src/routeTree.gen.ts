@@ -34,6 +34,7 @@ import { Route as AuthenticatedPaymentCallbackRouteImport } from './routes/_auth
 import { Route as AuthenticatedReadMaterialIdRouteImport } from './routes/_authenticated/read.$materialId'
 import { Route as AuthenticatedTutorIndexRouteImport } from './routes/_authenticated/tutor.index'
 import { Route as AuthenticatedTutorThreadIdRouteImport } from './routes/_authenticated/tutor.$threadId'
+import { Route as ApiPdfMaterialIdRouteImport } from './routes/api/pdf.$materialId'
 import { Route as ApiPublicPaystackWebhookRouteImport } from './routes/api/public/paystack-webhook'
 
 const IndexRoute = IndexRouteImport.update({
@@ -164,6 +165,11 @@ const AuthenticatedTutorThreadIdRoute =
     path: '/tutor/$threadId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const ApiPdfMaterialIdRoute = ApiPdfMaterialIdRouteImport.update({
+  id: '/api/pdf/$materialId',
+  path: '/api/pdf/$materialId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicPaystackWebhookRoute =
   ApiPublicPaystackWebhookRouteImport.update({
     id: '/api/public/paystack-webhook',
@@ -195,6 +201,7 @@ export interface FileRoutesByFullPath {
   '/payment/callback': typeof AuthenticatedPaymentCallbackRoute
   '/read/$materialId': typeof AuthenticatedReadMaterialIdRoute
   '/tutor/$threadId': typeof AuthenticatedTutorThreadIdRoute
+  '/api/pdf/$materialId': typeof ApiPdfMaterialIdRoute
   '/api/public/paystack-webhook': typeof ApiPublicPaystackWebhookRoute
   '/tutor/': typeof AuthenticatedTutorIndexRoute
 }
@@ -222,6 +229,7 @@ export interface FileRoutesByTo {
   '/payment/callback': typeof AuthenticatedPaymentCallbackRoute
   '/read/$materialId': typeof AuthenticatedReadMaterialIdRoute
   '/tutor/$threadId': typeof AuthenticatedTutorThreadIdRoute
+  '/api/pdf/$materialId': typeof ApiPdfMaterialIdRoute
   '/api/public/paystack-webhook': typeof ApiPublicPaystackWebhookRoute
   '/tutor': typeof AuthenticatedTutorIndexRoute
 }
@@ -251,6 +259,7 @@ export interface FileRoutesById {
   '/_authenticated/payment/callback': typeof AuthenticatedPaymentCallbackRoute
   '/_authenticated/read/$materialId': typeof AuthenticatedReadMaterialIdRoute
   '/_authenticated/tutor/$threadId': typeof AuthenticatedTutorThreadIdRoute
+  '/api/pdf/$materialId': typeof ApiPdfMaterialIdRoute
   '/api/public/paystack-webhook': typeof ApiPublicPaystackWebhookRoute
   '/_authenticated/tutor/': typeof AuthenticatedTutorIndexRoute
 }
@@ -280,6 +289,7 @@ export interface FileRouteTypes {
     | '/payment/callback'
     | '/read/$materialId'
     | '/tutor/$threadId'
+    | '/api/pdf/$materialId'
     | '/api/public/paystack-webhook'
     | '/tutor/'
   fileRoutesByTo: FileRoutesByTo
@@ -307,6 +317,7 @@ export interface FileRouteTypes {
     | '/payment/callback'
     | '/read/$materialId'
     | '/tutor/$threadId'
+    | '/api/pdf/$materialId'
     | '/api/public/paystack-webhook'
     | '/tutor'
   id:
@@ -335,6 +346,7 @@ export interface FileRouteTypes {
     | '/_authenticated/payment/callback'
     | '/_authenticated/read/$materialId'
     | '/_authenticated/tutor/$threadId'
+    | '/api/pdf/$materialId'
     | '/api/public/paystack-webhook'
     | '/_authenticated/tutor/'
   fileRoutesById: FileRoutesById
@@ -354,6 +366,7 @@ export interface RootRouteChildren {
   ResourcesRoute: typeof ResourcesRoute
   TermsRoute: typeof TermsRoute
   ApiTutorRoute: typeof ApiTutorRoute
+  ApiPdfMaterialIdRoute: typeof ApiPdfMaterialIdRoute
   ApiPublicPaystackWebhookRoute: typeof ApiPublicPaystackWebhookRoute
 }
 
@@ -534,6 +547,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTutorThreadIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/pdf/$materialId': {
+      id: '/api/pdf/$materialId'
+      path: '/api/pdf/$materialId'
+      fullPath: '/api/pdf/$materialId'
+      preLoaderRoute: typeof ApiPdfMaterialIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/paystack-webhook': {
       id: '/api/public/paystack-webhook'
       path: '/api/public/paystack-webhook'
@@ -590,6 +610,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResourcesRoute: ResourcesRoute,
   TermsRoute: TermsRoute,
   ApiTutorRoute: ApiTutorRoute,
+  ApiPdfMaterialIdRoute: ApiPdfMaterialIdRoute,
   ApiPublicPaystackWebhookRoute: ApiPublicPaystackWebhookRoute,
 }
 export const routeTree = rootRouteImport
