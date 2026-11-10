@@ -68,7 +68,7 @@ export const Route = createFileRoute("/api/tutor")({
           }
         }
 
-        const key = process.env["DEEPSEEK_API_KEY"];
+        const key = process.env["GROQ_API_KEY"];
         if (!key) return new Response("AI is not configured", { status: 503 });
 
         const { data: past } = await admin.from("tutor_messages").select("role,content")
@@ -87,13 +87,12 @@ export const Route = createFileRoute("/api/tutor")({
           if (qs?.length) grounding += `Relevant past questions:\n${qs.map((x: any) => `- (p. ${x.page_number ?? "?"}) ${String(x.question_text).slice(0, 300)}`).join("\n")}`;
         }
 
-        const upstream = await fetch("https://api.deepseek.com/chat/completions", {
+        const upstream = await fetch("https://api.groq.com/openai/v1/chat/completions", {
           method: "POST",
           headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` },
           body: JSON.stringify({
-            model: "deepseek-chat",
+            model: "llama-3.3-70b-versatile",
             stream: true,
-            stream_options: { include_usage: true },
             temperature: 0.5,
             messages: [
               { role: "system", content: SYSTEM + (grounding ? `\n\n${grounding}` : "") },
@@ -102,7 +101,7 @@ export const Route = createFileRoute("/api/tutor")({
           }),
         });
         if (!upstream.ok || !upstream.body) {
-          console.error("DeepSeek tutor", upstream.status, await upstream.text().catch(() => ""));
+          console.error("Groq tutor", upstream.status, await upstream.text().catch(() => ""));
           const msg = upstream.status === 401 || upstream.status === 402
             ? "The tutor isn't set up correctly yet. Please tell the administrator."
             : "The tutor is unavailable right now. Please try again.";
@@ -138,7 +137,7 @@ export const Route = createFileRoute("/api/tutor")({
                   try {
                     const j = JSON.parse(payload);
                     const delta = j.choices?.[0]?.delta?.content ?? "";
-                    if (j.usage) usage = j.usage;
+                    if (j.x_groq?.usage) usage = j.x_groq.usage; else if (j.usage) usage = j.usage;
                     if (delta) { full += delta; controller.enqueue(encoder.encode(delta)); }
                   } catch { /* partial frame */ }
                 }
@@ -149,7 +148,7 @@ export const Route = createFileRoute("/api/tutor")({
               if (full) {
                 const { error } = await admin.from("tutor_messages").insert({ thread_id: threadId, user_id: userId, role: "assistant", content: full });
                 if (error) console.error("tutor save reply", error);
-                await admin.from("ai_usage").insert({ user_id: userId, feature: "tutor", model: "deepseek-chat", prompt_tokens: usage.prompt_tokens ?? 0, completion_tokens: usage.completion_tokens ?? 0 });
+                await admin.from("ai_usage").insert({ user_id: userId, feature: "tutor", model: "llama-3.3-70b-versatile", prompt_tokens: usage.prompt_tokens ?? 0, completion_tokens: usage.completion_tokens ?? 0 });
                 await admin.from("tutor_threads").update(isFirst && thread.title === "New chat" ? { title: message.slice(0, 60) } : { updated_at: new Date().toISOString() }).eq("id", threadId);
               }
               controller.close();
