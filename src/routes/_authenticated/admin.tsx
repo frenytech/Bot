@@ -28,7 +28,12 @@ function AdminPage() {
     return <Section><GlassCard hover={false}>You don't have access to this page.</GlassCard></Section>;
   return (
     <Section>
-      <div className="flex flex-wrap items-center justify-between gap-3"><h1 className="text-3xl font-bold">Admin · Courses & PDFs</h1><Button asChild variant="outline"><Link to="/admin/questions">Review questions</Link></Button></div>
+      <div className="relative overflow-hidden rounded-3xl glass-panel aurora-canvas p-6 sm:p-8">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Control centre</p>
+        <h1 className="mt-2 text-3xl font-bold sm:text-4xl">Admin · <span className="text-gradient">Courses & PDFs</span></h1>
+        <p className="mt-2 max-w-xl text-muted-foreground">Create courses, upload past questions, scan them with AI and publish to students.</p>
+        <Button asChild className="mt-5 glow-soft"><Link to="/admin/questions">Review questions</Link></Button>
+      </div>
       <NewCourse />
       <CourseList />
     </Section>
