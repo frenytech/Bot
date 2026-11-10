@@ -194,7 +194,11 @@ function ChatWindow({ threadId }: { threadId: string }) {
         toast.error(`You've used today's ${j.limit ?? ""} tutor messages. Upgrade for more.`);
         setMsgs((m) => m.slice(0, -1)); setInput(message); setStatus("idle"); return;
       }
-      if (!res.ok || !res.body) throw new Error(await res.text());
+      if (!res.ok || !res.body) {
+        const text = await res.text().catch(() => "");
+        toast.error(text || "The tutor couldn't reply. Try again.");
+        setMsgs((m) => m.slice(0, -1)); setInput(message); setStatus("idle"); return;
+      }
       const id = `a-${Date.now()}`;
       setMsgs((m) => [...m, { id, role: "assistant", content: "" }]);
       setStatus("streaming");
