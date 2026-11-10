@@ -71,11 +71,9 @@ export const Route = createFileRoute("/api/tutor")({
         const key = process.env["DEEPSEEK_API_KEY"];
         if (!key) return new Response("AI is not configured", { status: 503 });
 
-        const { error: insErr } = await admin.from("tutor_messages").insert({ thread_id: threadId, user_id: userId, role: "user", content: message });
-        if (insErr) { console.error("tutor save user msg", insErr); return new Response("Could not save message", { status: 500 }); }
-
-        const { data: history } = await admin.from("tutor_messages").select("role,content")
-          .eq("thread_id", threadId).order("created_at", { ascending: true }).limit(40);
+        const { data: past } = await admin.from("tutor_messages").select("role,content")
+          .eq("thread_id", threadId).order("created_at", { ascending: false }).limit(39);
+        const history = [...(past ?? []).reverse(), { role: "user", content: message }];
 
         // Course grounding: published past questions with page references.
         let grounding = "";
@@ -105,8 +103,15 @@ export const Route = createFileRoute("/api/tutor")({
         });
         if (!upstream.ok || !upstream.body) {
           console.error("DeepSeek tutor", upstream.status, await upstream.text().catch(() => ""));
-          return new Response("The tutor is unavailable right now. Please try again.", { status: 502 });
+          const msg = upstream.status === 401 || upstream.status === 402
+            ? "The tutor isn't set up correctly yet. Please tell the administrator."
+            : "The tutor is unavailable right now. Please try again.";
+          return new Response(msg, { status: 503 });
         }
+
+        // Only save the student's message once the tutor has accepted it, so failures leave no orphan messages.
+        const { error: insErr } = await admin.from("tutor_messages").insert({ thread_id: threadId, user_id: userId, role: "user", content: message });
+        if (insErr) console.error("tutor save user msg", insErr);
 
         const encoder = new TextEncoder();
         const decoder = new TextDecoder();
