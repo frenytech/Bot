@@ -27,7 +27,7 @@ powers everything; no Lovable Cloud.
 - [x] Student dashboard shell (12 sections)
 
 ## Phase 4 — Super administrator dashboard
-- [ ] Admin: students, directory editing, settings, messages, payments, AI analytics
+- [x] Admin overview: students, payments, messages, AI usage (directory editing + settings pending)
 - [x] PDF manager: courses, upload, publish/hide, delete (page count pending scanner)
 
 ## Phase 5 — Automatic PDF scanner
@@ -50,7 +50,7 @@ powers everything; no Lovable Cloud.
 - [x] Paystack checkout, verify on return, signed webhook, 30-day activation
 - [ ] Paystack initialize, verify, webhook, duplicate protection
 - [ ] Subscription activation only after backend verification
-- [ ] Payment history and subscription management UI
+- [x] Payment history and membership status in Settings
 
 ## Phase 8 — DeepSeek AI Tutor and RAG
 - [x] DeepSeek chat through the backend (threaded, saved, streamed, daily limits)

@@ -32,7 +32,7 @@ function AdminPage() {
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Control centre</p>
         <h1 className="mt-2 text-3xl font-bold sm:text-4xl">Admin · <span className="text-gradient">Courses & PDFs</span></h1>
         <p className="mt-2 max-w-xl text-muted-foreground">Create courses, upload past questions, scan them with AI and publish to students.</p>
-        <Button asChild className="mt-5 glow-soft"><Link to="/admin/questions">Review questions</Link></Button>
+        <div className="mt-5 flex flex-wrap gap-2"><Button asChild className="glow-soft"><Link to="/admin/questions">Review questions</Link></Button><Button asChild variant="outline"><Link to="/admin/overview">Students, payments & messages</Link></Button></div>
       </div>
       <NewCourse />
       <CourseList />

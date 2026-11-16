@@ -9,6 +9,8 @@ import { GlassCard, Section } from "@/components/site/page-shell";
 import { AcademicFields, emptyAcademic, type AcademicValues } from "@/components/site/academic-fields";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
+import { useQuery } from "@tanstack/react-query";
+import { Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_authenticated/settings")({
   head: () => ({ meta: [{ title: "Settings | StudyAI" }, { name: "robots", content: "noindex" }] }),
@@ -62,6 +64,40 @@ function SettingsPage() {
           <Button onClick={save} disabled={busy}>{busy ? "Saving…" : "Save changes"}</Button>
         </div>
       </GlassCard>
+      <Billing userId={user?.id} />
     </Section>
+  );
+}
+
+function Billing({ userId }: { userId?: string }) {
+  const q = useQuery({
+    queryKey: ["billing", userId],
+    enabled: !!userId,
+    queryFn: async () => {
+      const [sub, pays] = await Promise.all([
+        supabase.from("subscriptions").select("plan,status,expires_at").eq("user_id", userId!).order("created_at", { ascending: false }).limit(1).maybeSingle(),
+        supabase.from("payments").select("id,plan,amount_naira,status,reference,created_at").eq("user_id", userId!).order("created_at", { ascending: false }).limit(50),
+      ]);
+      return { sub: sub.data, pays: pays.data ?? [] };
+    },
+  });
+  const sub = q.data?.sub;
+  const active = sub && sub.status === "active" && (!sub.expires_at || new Date(sub.expires_at) > new Date());
+  return (
+    <GlassCard hover={false} className="mt-6">
+      <h2 className="text-xl font-bold">Membership & payments</h2>
+      <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
+        <p>{active ? <>You're on <b className="capitalize">{sub!.plan}</b>{sub!.expires_at ? ` until ${new Date(sub!.expires_at).toLocaleDateString()}` : ""}.</> : "You're on the Free plan."}</p>
+        <Button asChild size="sm"><Link to="/pricing">{active ? "Renew or change plan" : "Upgrade"}</Link></Button>
+      </div>
+      <div className="mt-4 space-y-2">
+        {q.data?.pays.length ? q.data.pays.map((p) => (
+          <div key={p.id} className="flex flex-wrap justify-between gap-2 rounded-lg border border-border px-3 py-2 text-sm">
+            <span className="capitalize">{p.plan} · ₦{p.amount_naira.toLocaleString()}</span>
+            <span className="capitalize text-muted-foreground">{p.status} · {new Date(p.created_at).toLocaleDateString()}</span>
+          </div>
+        )) : <p className="text-sm text-muted-foreground">No payments yet.</p>}
+      </div>
+    </GlassCard>
   );
 }
