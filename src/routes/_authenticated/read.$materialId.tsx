@@ -25,6 +25,33 @@ function Reader() {
   const [usedToday, setUsedToday] = useState(0);
   const seen = useRef(new Set<number>());
   const canvas = useRef<HTMLCanvasElement>(null);
+  const [hidden, setHidden] = useState(false);
+
+  // Deterrents: hide the page whenever the reader leaves the tab/window, on PrintScreen, and when printing.
+  useEffect(() => {
+    const hide = () => setHidden(true);
+    const vis = () => setHidden(document.hidden);
+    const key = (e: KeyboardEvent) => {
+      const k = e.key.toLowerCase();
+      if (k === "printscreen" || ((e.ctrlKey || e.metaKey) && (k === "p" || k === "s")) || (e.metaKey && e.shiftKey)) {
+        e.preventDefault();
+        setHidden(true);
+        navigator.clipboard?.writeText("").catch(() => {});
+      }
+    };
+    window.addEventListener("blur", hide);
+    window.addEventListener("beforeprint", hide);
+    document.addEventListener("visibilitychange", vis);
+    window.addEventListener("keydown", key);
+    window.addEventListener("keyup", key);
+    return () => {
+      window.removeEventListener("blur", hide);
+      window.removeEventListener("beforeprint", hide);
+      document.removeEventListener("visibilitychange", vis);
+      window.removeEventListener("keydown", key);
+      window.removeEventListener("keyup", key);
+    };
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -106,13 +133,19 @@ function Reader() {
         </p>
       </div>
       <div
-        className="relative mt-4 overflow-hidden rounded-xl border border-border bg-card select-none"
+        className="relative mt-4 overflow-hidden rounded-xl border border-border bg-card select-none print:hidden [-webkit-touch-callout:none]"
         onContextMenu={(e) => e.preventDefault()}
+        onDragStart={(e) => e.preventDefault()}
       >
-        <canvas ref={canvas} className={`mx-auto block h-auto max-w-full ${locked ? "blur-lg" : ""}`} />
+        <canvas ref={canvas} className={`mx-auto block h-auto max-w-full ${locked || hidden ? "blur-xl" : ""}`} />
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center" aria-hidden>
           <span className="-rotate-30 text-2xl font-bold text-foreground/10 md:text-4xl">{info.watermark}</span>
         </div>
+        {hidden && !locked ? (
+          <button type="button" onClick={() => setHidden(false)} className="absolute inset-0 flex items-center justify-center bg-background/80 p-6 text-center font-semibold">
+            Tap to continue reading
+          </button>
+        ) : null}
         {locked ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-background/60 p-6 text-center">
             <Lock className="size-8 text-primary" />
