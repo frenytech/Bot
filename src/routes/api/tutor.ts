@@ -91,7 +91,7 @@ export const Route = createFileRoute("/api/tutor")({
           method: "POST",
           headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` },
           body: JSON.stringify({
-            model: "llama-3.3-70b-versatile",
+            model: "openai/gpt-oss-120b",
             stream: true,
             temperature: 0.5,
             messages: [
@@ -148,7 +148,7 @@ export const Route = createFileRoute("/api/tutor")({
               if (full) {
                 const { error } = await admin.from("tutor_messages").insert({ thread_id: threadId, user_id: userId, role: "assistant", content: full });
                 if (error) console.error("tutor save reply", error);
-                await admin.from("ai_usage").insert({ user_id: userId, feature: "tutor", model: "llama-3.3-70b-versatile", prompt_tokens: usage.prompt_tokens ?? 0, completion_tokens: usage.completion_tokens ?? 0 });
+                await admin.from("ai_usage").insert({ user_id: userId, feature: "tutor", model: "openai/gpt-oss-120b", prompt_tokens: usage.prompt_tokens ?? 0, completion_tokens: usage.completion_tokens ?? 0 });
                 await admin.from("tutor_threads").update(isFirst && thread.title === "New chat" ? { title: message.slice(0, 60) } : { updated_at: new Date().toISOString() }).eq("id", threadId);
               }
               controller.close();

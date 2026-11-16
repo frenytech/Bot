@@ -69,7 +69,7 @@ export const scanPages = createServerFn({ method: "POST" })
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` },
         body: JSON.stringify({
-          model: "llama-3.3-70b-versatile",
+          model: "openai/gpt-oss-120b",
           response_format: { type: "json_object" },
           temperature: 0,
           messages: [{ role: "system", content: PROMPT }, { role: "user", content: body }],

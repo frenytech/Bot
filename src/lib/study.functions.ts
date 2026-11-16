@@ -40,7 +40,7 @@ export const generateNotes = createServerFn({ method: "POST" })
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` },
       body: JSON.stringify({
-        model: "llama-3.3-70b-versatile", temperature: 0.4,
+        model: "openai/gpt-oss-120b", temperature: 0.4,
         messages: [
           { role: "system", content: "You are a university tutor. Write clear, well-structured study notes in Markdown: short intro, key concepts with headings, worked examples, common exam traps, and a 5-point summary. Be accurate and concise." },
           { role: "user", content: `Course: ${course.code} — ${course.title}\nTopic: ${data.topic}\n\nPast exam questions from this course (for focus):\n${context_ || "none"}` },
@@ -54,6 +54,6 @@ export const generateNotes = createServerFn({ method: "POST" })
     const { data: note, error } = await (supabaseAdmin as any).from("study_notes")
       .insert({ user_id: context.userId, course_id: course.id, topic: data.topic, content }).select("id,topic,content,created_at").single();
     if (error) throw new Error("Could not save notes");
-    await supabaseAdmin.from("ai_usage").insert({ user_id: context.userId, feature: "study_notes", model: "llama-3.3-70b-versatile", prompt_tokens: j.usage?.prompt_tokens ?? 0, completion_tokens: j.usage?.completion_tokens ?? 0 });
+    await supabaseAdmin.from("ai_usage").insert({ user_id: context.userId, feature: "study_notes", model: "openai/gpt-oss-120b", prompt_tokens: j.usage?.prompt_tokens ?? 0, completion_tokens: j.usage?.completion_tokens ?? 0 });
     return note as { id: string; topic: string; content: string; created_at: string };
   });
