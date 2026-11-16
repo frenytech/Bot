@@ -29,6 +29,7 @@ import { Route as AuthenticatedFlashcardsRouteImport } from './routes/_authentic
 import { Route as AuthenticatedNotesRouteImport } from './routes/_authenticated/notes'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as ApiTutorRouteImport } from './routes/api/tutor'
+import { Route as AuthenticatedAdminOverviewRouteImport } from './routes/_authenticated/admin_.overview'
 import { Route as AuthenticatedAdminQuestionsRouteImport } from './routes/_authenticated/admin_.questions'
 import { Route as AuthenticatedPaymentCallbackRouteImport } from './routes/_authenticated/payment.callback'
 import { Route as AuthenticatedReadMaterialIdRouteImport } from './routes/_authenticated/read.$materialId'
@@ -136,6 +137,12 @@ const ApiTutorRoute = ApiTutorRouteImport.update({
   path: '/api/tutor',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminOverviewRoute =
+  AuthenticatedAdminOverviewRouteImport.update({
+    id: '/admin_/overview',
+    path: '/admin/overview',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAdminQuestionsRoute =
   AuthenticatedAdminQuestionsRouteImport.update({
     id: '/admin_/questions',
@@ -197,6 +204,7 @@ export interface FileRoutesByFullPath {
   '/notes': typeof AuthenticatedNotesRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/api/tutor': typeof ApiTutorRoute
+  '/admin/overview': typeof AuthenticatedAdminOverviewRoute
   '/admin/questions': typeof AuthenticatedAdminQuestionsRoute
   '/payment/callback': typeof AuthenticatedPaymentCallbackRoute
   '/read/$materialId': typeof AuthenticatedReadMaterialIdRoute
@@ -225,6 +233,7 @@ export interface FileRoutesByTo {
   '/notes': typeof AuthenticatedNotesRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/api/tutor': typeof ApiTutorRoute
+  '/admin/overview': typeof AuthenticatedAdminOverviewRoute
   '/admin/questions': typeof AuthenticatedAdminQuestionsRoute
   '/payment/callback': typeof AuthenticatedPaymentCallbackRoute
   '/read/$materialId': typeof AuthenticatedReadMaterialIdRoute
@@ -255,6 +264,7 @@ export interface FileRoutesById {
   '/_authenticated/notes': typeof AuthenticatedNotesRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/api/tutor': typeof ApiTutorRoute
+  '/_authenticated/admin_/overview': typeof AuthenticatedAdminOverviewRoute
   '/_authenticated/admin_/questions': typeof AuthenticatedAdminQuestionsRoute
   '/_authenticated/payment/callback': typeof AuthenticatedPaymentCallbackRoute
   '/_authenticated/read/$materialId': typeof AuthenticatedReadMaterialIdRoute
@@ -285,6 +295,7 @@ export interface FileRouteTypes {
     | '/notes'
     | '/settings'
     | '/api/tutor'
+    | '/admin/overview'
     | '/admin/questions'
     | '/payment/callback'
     | '/read/$materialId'
@@ -313,6 +324,7 @@ export interface FileRouteTypes {
     | '/notes'
     | '/settings'
     | '/api/tutor'
+    | '/admin/overview'
     | '/admin/questions'
     | '/payment/callback'
     | '/read/$materialId'
@@ -342,6 +354,7 @@ export interface FileRouteTypes {
     | '/_authenticated/notes'
     | '/_authenticated/settings'
     | '/api/tutor'
+    | '/_authenticated/admin_/overview'
     | '/_authenticated/admin_/questions'
     | '/_authenticated/payment/callback'
     | '/_authenticated/read/$materialId'
@@ -512,6 +525,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiTutorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin_/overview': {
+      id: '/_authenticated/admin_/overview'
+      path: '/admin/overview'
+      fullPath: '/admin/overview'
+      preLoaderRoute: typeof AuthenticatedAdminOverviewRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin_/questions': {
       id: '/_authenticated/admin_/questions'
       path: '/admin/questions'
@@ -571,6 +591,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedFlashcardsRoute: typeof AuthenticatedFlashcardsRoute
   AuthenticatedNotesRoute: typeof AuthenticatedNotesRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+  AuthenticatedAdminOverviewRoute: typeof AuthenticatedAdminOverviewRoute
   AuthenticatedAdminQuestionsRoute: typeof AuthenticatedAdminQuestionsRoute
   AuthenticatedPaymentCallbackRoute: typeof AuthenticatedPaymentCallbackRoute
   AuthenticatedReadMaterialIdRoute: typeof AuthenticatedReadMaterialIdRoute
@@ -585,6 +606,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedFlashcardsRoute: AuthenticatedFlashcardsRoute,
   AuthenticatedNotesRoute: AuthenticatedNotesRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+  AuthenticatedAdminOverviewRoute: AuthenticatedAdminOverviewRoute,
   AuthenticatedAdminQuestionsRoute: AuthenticatedAdminQuestionsRoute,
   AuthenticatedPaymentCallbackRoute: AuthenticatedPaymentCallbackRoute,
   AuthenticatedReadMaterialIdRoute: AuthenticatedReadMaterialIdRoute,

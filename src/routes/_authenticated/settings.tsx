@@ -69,7 +69,7 @@ function SettingsPage() {
   );
 }
 
-function Billing({ userId }: { userId?: string }) {
+function Billing({ userId }: { userId: string | undefined }) {
   const q = useQuery({
     queryKey: ["billing", userId],
     enabled: !!userId,
