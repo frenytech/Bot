@@ -1,5 +1,12 @@
 # StudyAI — Build Roadmap
 
+## Current request — Tutor intelligence upgrade
+- [ ] Learn/Solve modes, subject-aware instruction and mathematical rendering
+- [ ] Authorized PDF-page retrieval and reader-to-tutor context
+- [ ] Response actions, saving, regeneration and resilient streaming
+- [ ] Integrated Exam mode, difficulty, grading, explanations and topic feedback
+- [ ] Subscription/security tests and desktop/mobile checks
+
 Phases follow the master development prompt. Own Supabase (ref `ajgdfaugmiyzynlazvrn`)
 powers everything; no Lovable Cloud.
 
