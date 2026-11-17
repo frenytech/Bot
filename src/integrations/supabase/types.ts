@@ -973,6 +973,53 @@ export type Database = {
           },
         ]
       }
+      tutor_exams: {
+        Row: {
+          answers: Json | null
+          course_id: string
+          created_at: string
+          expires_at: string | null
+          id: string
+          practice: boolean
+          questions: Json
+          result: Json | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          answers?: Json | null
+          course_id: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          practice?: boolean
+          questions: Json
+          result?: Json | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          answers?: Json | null
+          course_id?: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          practice?: boolean
+          questions?: Json
+          result?: Json | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tutor_exams_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tutor_messages: {
         Row: {
           content: string
@@ -1007,6 +1054,65 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      tutor_pdf_pages: {
+        Row: {
+          content: string
+          created_at: string
+          material_id: string
+          page_number: number
+          updated_at: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          material_id: string
+          page_number: number
+          updated_at?: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          material_id?: string
+          page_number?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tutor_pdf_pages_material_id_fkey"
+            columns: ["material_id"]
+            isOneToOne: false
+            referencedRelation: "course_materials"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tutor_requests: {
+        Row: {
+          created_at: string
+          feature: string
+          id: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          feature: string
+          id: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          feature?: string
+          id?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       tutor_threads: {
         Row: {
@@ -1117,6 +1223,15 @@ export type Database = {
         Returns: boolean
       }
       is_super_admin: { Args: never; Returns: boolean }
+      reserve_tutor_request: {
+        Args: {
+          _feature: string
+          _id: string
+          _limit: number
+          _user_id: string
+        }
+        Returns: string
+      }
     }
     Enums: {
       app_role: "super_admin" | "student"
